@@ -87,11 +87,11 @@ def main():
                 del rec.swarm  
 
     path = write_excel(records, config.EXCEL_PATH)
-    print(f"\nExcel written: {path} ({len(records)} rows in all_runs)")
+    print(f"\nxcel written: {path} ({len(records)} rows in all_runs)")
 
     all_df = pd.DataFrame([r.row for r in records])
     study_paths = generate_study_plots(all_df, config.PLOTS_DIR)
-    print(f"Study-level plots: {len(study_paths)} figures in {config.PLOTS_DIR}/")
+    print(f"study-level plots: {len(study_paths)} figures in {config.PLOTS_DIR}/")
 
     from src.excel_writer import _summarise, _best_combinations
     best = _best_combinations(_summarise(all_df)).head(1)
@@ -101,7 +101,7 @@ def main():
               f"converged_fraction={b['converged_fraction']:.2f} | "
               f"median d_final={b['median_final_geodesic_distance_m']:.1f} m | "
               f"median eta={b['median_energy_efficiency_mean']:.2f}")
-    print("\nDone.")
+    print("\nDone")
 
 
 if __name__ == "__main__":

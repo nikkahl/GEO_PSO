@@ -20,9 +20,9 @@ def generate_per_run_plots(rec, terrain, geo_field, per_run_dir: str, n_agents: 
     os.makedirs(out, exist_ok=True)
     suffix = f"({cid})"
 
-    swarm = rec.swarm                 # type: ignore[attr-defined]
-    start_xy = rec.start_xy           # type: ignore[attr-defined]
-    target_xy = rec.target_xy         # type: ignore[attr-defined]
+    swarm = rec.swarm                 
+    start_xy = rec.start_xy           
+    target_xy = rec.target_xy        
     trajectories = [np.array(p.trajectory) for p in swarm]
 
     plot_terrain.plot_terrain_3d(terrain, trajectories, start_xy, target_xy, n_agents,

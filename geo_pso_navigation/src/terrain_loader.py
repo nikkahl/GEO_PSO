@@ -128,7 +128,7 @@ def load_terrain_from_contours_shp(path: str, grid_n: int = 80,
     Terrain. The interpolation fills values BETWEEN measured contours; it
     does not invent terrain.
     """
-    import geopandas as gpd           # local import: optional heavy dependency
+    import geopandas as gpd           
     from shapely.geometry import box
     from scipy.interpolate import griddata
 
@@ -138,7 +138,6 @@ def load_terrain_from_contours_shp(path: str, grid_n: int = 80,
     if gdf.empty:
         raise ValueError("No contour features found (check path / bbox).")
 
-    # Resolve the elevation attribute.
     field = elev_field
     if field is None:
         for cand in _ELEV_FIELD_CANDIDATES:
@@ -152,7 +151,6 @@ def load_terrain_from_contours_shp(path: str, grid_n: int = 80,
 
     is_geographic = bool(getattr(gdf.crs, "is_geographic", False)) if gdf.crs else True
 
-    # Sample points along every contour line at its elevation.
     pts_x, pts_y, pts_z = [], [], []
     for geom, elev in zip(gdf.geometry, gdf[field]):
         if geom is None or elev is None:
@@ -169,18 +167,15 @@ def load_terrain_from_contours_shp(path: str, grid_n: int = 80,
     if len(pts_z) < 4:
         raise ValueError("Too few contour vertices to build a surface.")
 
-    # Target regular grid over the data extent.
     x_lin = np.linspace(pts_x.min(), pts_x.max(), grid_n)
     y_lin = np.linspace(pts_y.min(), pts_y.max(), grid_n)
     GX, GY = np.meshgrid(x_lin, y_lin)
     Z = griddata((pts_x, pts_y), pts_z, (GX, GY), method="linear")
-    # Fill outside the convex hull with nearest-contour elevation.
     nan = np.isnan(Z)
     if nan.any():
         Zn = griddata((pts_x, pts_y), pts_z, (GX, GY), method="nearest")
         Z[nan] = Zn[nan]
 
-    # Light smoothing so the Hessian (surface curvature) stays well-behaved.
     from scipy.ndimage import gaussian_filter
     Z = gaussian_filter(Z, sigma=1.0)
 
