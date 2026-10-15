@@ -1,0 +1,11 @@
+numpy>=1.26
+scipy>=1.11
+pandas>=2.0
+matplotlib>=3.8
+openpyxl>=3.1
+# Reading REAL terrain:
+#   contour shapefile (.shp):
+geopandas>=0.14
+shapely>=2.0
+#   DEM raster (.tif) -- optional alternative source:
+# rasterio>=1.3

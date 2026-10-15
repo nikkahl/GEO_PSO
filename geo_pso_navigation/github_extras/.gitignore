@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Keep results/ (plots + Excel) so the reviewer can see outputs.
+# If results get too large, uncomment the next lines to exclude heavy outputs:
+# results/per_run/
